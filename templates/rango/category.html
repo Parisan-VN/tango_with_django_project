@@ -9,6 +9,7 @@
         <div>
         {% if category %}
             <h1>{{ category.name }}</h1>
+            <p><a href="/rango/category/{{ category.slug }}/add_page/">Add Page</a></p>
             {% if pages %}
             <ul>
                 {% for page in pages %}
