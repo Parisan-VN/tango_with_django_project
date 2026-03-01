@@ -16,7 +16,9 @@ def index(request):
     return render(request, 'rango/index.html', context=context_dict)
 
 def about(request):
-    return render(request, 'rango/about.html')
+    print(request.method)
+    print(request.user)
+    return render(request, 'rango/about.html', {})
 
 def add_category(request):
     form = CategoryForm()
@@ -27,7 +29,7 @@ def add_category(request):
         if form.is_valid():
             cat = form.save(commit=True)
             print(cat, cat.slug)
-            return redirect('/rango/')
+            return redirect(reverse('rango:index'))
     else:
         print(form.errors)
     
