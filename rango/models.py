@@ -1,5 +1,6 @@
 from django.db import models
 from django.template.defaultfilters import slugify
+from django.contrib.auth.models import User
 
 class Category(models.Model):
     NAME_MAX_LENGTH = 128
@@ -9,7 +10,8 @@ class Category(models.Model):
     slug = models.SlugField(unique=True)
     
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
+        if not self.slug: 
+            self.slug = slugify(self.name) 
         super(Category, self).save(*args, **kwargs)
 
     class Meta:
@@ -26,4 +28,11 @@ class Page(models.Model):
 
     def __str__(self):
         return self.title
+    
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    website = models.URLField(blank=True)
+    picture = models.ImageField(upload_to='profile_images', blank=True)
 
+    def __str__(self):
+        return self.user.username
